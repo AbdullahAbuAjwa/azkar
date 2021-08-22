@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SebhaScreen extends StatefulWidget {
   const SebhaScreen({Key? key}) : super(key: key);
@@ -19,18 +19,7 @@ class _SebhaScreenState extends State<SebhaScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text('السبحة الالكترونية'),
-        leading: Container(
-          color: Theme.of(context).accentColor,
-          child: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ),
-      ),
       body: Center(
         child: Column(
           // crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,48 +30,24 @@ class _SebhaScreenState extends State<SebhaScreen> {
                 increment();
               },
               child: Container(
-                height: 170,
-                width: 170,
+                height: 185.h,
+                width: 185.w,
                 decoration: BoxDecoration(
-                  color: Colors.green,
+                  border: Border.all(color: Colors.green, width: 4.w),
                   shape: BoxShape.circle,
                 ),
-              ),
-            ),
-            SizedBox(height: 60),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 1,
-                    style: BorderStyle.solid,
+                child: Center(
+                  child: Text(
+                    counter.toString(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline3!
+                        .copyWith(color: Colors.red),
                   ),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(15.0),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'مجموع التسبيحات:',
-                      style: Theme.of(context).textTheme.headline5,
-                    ),
-                    SizedBox(width: 20),
-                    Text(
-                      counter.toString(),
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(color: Colors.red),
-                    ),
-                  ],
                 ),
               ),
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 60.h),
             TextButton(
                 onPressed: () {
                   counter = 0;
@@ -91,7 +56,7 @@ class _SebhaScreenState extends State<SebhaScreen> {
                 child: Text(
                   'تصفير',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 20.sp,
                   ),
                 ))
           ],
