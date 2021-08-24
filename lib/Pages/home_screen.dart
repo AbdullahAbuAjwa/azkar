@@ -1,6 +1,8 @@
 import 'package:azkar/Pages/azkar_screen.dart';
 import 'package:azkar/Pages/sebha_screen.dart';
+import 'package:azkar/provider/azkarProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     super.initState();
     tabController = TabController(length: 2, vsync: this);
+    Provider.of<AzkarProvider>(context, listen: false).getNotification(context);
   }
 
   @override

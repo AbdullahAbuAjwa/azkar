@@ -1,7 +1,6 @@
 import 'package:azkar/Widget/azkar_details_card.dart';
 import 'package:azkar/Widget/dialog.dart';
 import 'package:azkar/provider/azkarProvider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +27,35 @@ class _AzkarDetailsScreenState extends State<AzkarDetailsScreen> {
             ),
           ),
         ),
-        body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        body: FutureBuilder(
+          future: Provider.of<AzkarProvider>(context, listen: false)
+              .getAzkarDetails(arguments),
+          builder: (BuildContext context, snapshot) {
+            if (snapshot.hasError) {
+              return Center(child: Text('لم يتم إضافة أذكار!'));
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+            return Consumer<AzkarProvider>(builder: (context, provider, _) {
+              if (provider.list.length == 0) {
+                return Center(child: Text('لم يتم إضافة أذكار!'));
+              }
+              return ListView.builder(
+                itemCount: provider.list.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return AzkarDetailsCard(
+                    name: provider.list[index]['name'],
+                    repeat: provider.list[index]['repeat'],
+                  );
+                },
+              );
+            });
+          },
+        ),
+      ),
+    );
+    /*body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
           stream: Provider.of<AzkarProvider>(context, listen: false)
               .getAzkarDetails(arguments),
           builder: (BuildContext context,
@@ -53,14 +80,12 @@ class _AzkarDetailsScreenState extends State<AzkarDetailsScreen> {
                   );
                 });
           },
-        ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {
-        //     CustomDialog.customDialog.addZekr(context, arguments);
-        //   },
-        //   child: Icon(Icons.add),
-        // ),
-      ),
-    );
+        ),*/
+    // floatingActionButton: FloatingActionButton(
+    //   onPressed: () {
+    //     CustomDialog.customDialog.addZekr(context, arguments);
+    //   },
+    //   child: Icon(Icons.add),
+    // ),
   }
 }
