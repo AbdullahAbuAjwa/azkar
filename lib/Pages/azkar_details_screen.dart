@@ -46,7 +46,7 @@ class _AzkarDetailsScreenState extends State<AzkarDetailsScreen> {
                 itemBuilder: (BuildContext context, int index) {
                   return AzkarDetailsCard(
                     name: provider.list[index]['name'],
-                    repeat: provider.list[index]['repeat'],
+                    repeat: provider.list[index]['repeat']??'-',
                   );
                 },
               );
