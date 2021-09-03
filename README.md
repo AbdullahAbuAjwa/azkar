@@ -2,15 +2,12 @@
 
 Azkar App
 
-## Getting Started
+## Muslim Azkar
 
-This project is a starting point for a Flutter application.
+- It contains Muslim Azkar and Electronic Masbaha. The app reminds the users of a Muslim Azkar and helps them in their worship.
+Daily notifications are sent as a reminder to read the Azkar.
 
-A few resources to get you started if this is your first Flutter project:
+- It contains Muslim Azkar and Electronic Masbaha. The app reminds the users of a Muslim Azkar and helps them in their worship.
+Daily notifications are sent as a reminder to read the Azkar.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[Download it from Google Play](https://play.google.com/store/apps/details?id=com.ajwa.azkar).
