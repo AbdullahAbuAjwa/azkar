@@ -90,7 +90,7 @@ class _AzkarDetailsCardState extends State<AzkarDetailsCard> {
                                 shape: BoxShape.circle,
                               ),
                               child:
-                                  Center(child: Text(widget.repeat.toString())),
+                              Center(child: Text(widget.repeat.toString())),
                             )
                           ],
                         ),
@@ -119,9 +119,9 @@ class _AzkarDetailsCardState extends State<AzkarDetailsCard> {
                                 ),
                                 child: Center(
                                     child: Icon(
-                                  Icons.share,
-                                  size: 20.sp,
-                                )),
+                                      Icons.share,
+                                      size: 20.sp,
+                                    )),
                               ),
                             )
                           ],

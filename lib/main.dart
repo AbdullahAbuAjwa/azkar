@@ -1,5 +1,7 @@
 import 'package:azkar/Pages/splash_screen.dart';
 import 'package:azkar/provider/azkarProvider.dart';
+import 'package:azkar/provider/sebha_provider.dart';
+import 'package:azkar/shared_preferences.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -25,8 +27,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 Future<void> main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferenceHelper.sharedPreferenceHelper.initShredPreference();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await flutterLocalNotificationsPlugin
@@ -38,7 +40,6 @@ Future<void> main() async {
     alert: true,
     badge: true,
     sound: true,
-
   );
   runApp(EasyLocalization(
     startLocale: Locale('ar'),
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: AzkarProvider()),
+        ChangeNotifierProvider.value(value: SebhaProvider()),
       ],
       child: ScreenUtilInit(
         designSize: Size(411.42857142857144, 683.4285714285714),
@@ -69,19 +71,21 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'أذكاري',
           theme: ThemeData(
-                  primarySwatch: Colors.green, accentColor: Colors.greenAccent)
-              .copyWith(
+            colorScheme: ColorScheme.fromSwatch(
+              primarySwatch: Colors.green,
+              accentColor: Colors.greenAccent,
+            ),
+          ).copyWith(
             appBarTheme: AppBarTheme(
-                color: Colors.white,
-                centerTitle: true,
-                elevation: 0,
-                textTheme: GoogleFonts.cairoTextTheme(TextTheme(
-                  headline6: TextStyle(
-                    color: Colors.black,
-                    fontSize: 23.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ))),
+              color: Colors.white,
+              centerTitle: true,
+              elevation: 0,
+              titleTextStyle: GoogleFonts.cairo(
+                color: Colors.black,
+                fontSize: 23.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,

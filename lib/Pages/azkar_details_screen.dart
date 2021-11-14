@@ -10,17 +10,27 @@ class AzkarDetailsScreen extends StatefulWidget {
 }
 
 class _AzkarDetailsScreenState extends State<AzkarDetailsScreen> {
+  late String arguments;
+  late Future future;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    arguments = ModalRoute.of(context)!.settings.arguments as String;
+
+    future = Provider.of<AzkarProvider>(context, listen: false)
+        .getAzkarDetails(arguments);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final arguments = ModalRoute.of(context)!.settings.arguments as String;
-
     return Hero(
       tag: arguments.toString(),
       child: Scaffold(
         appBar: AppBar(
           title: Text(arguments.toString()),
           leading: Container(
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
             child: IconButton(
               icon: Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () => Navigator.of(context).pop(),
@@ -28,8 +38,7 @@ class _AzkarDetailsScreenState extends State<AzkarDetailsScreen> {
           ),
         ),
         body: FutureBuilder(
-          future: Provider.of<AzkarProvider>(context, listen: false)
-              .getAzkarDetails(arguments),
+          future: future,
           builder: (BuildContext context, snapshot) {
             if (snapshot.hasError) {
               return Center(child: Text('لم يتم إضافة أذكار!'));
@@ -46,7 +55,7 @@ class _AzkarDetailsScreenState extends State<AzkarDetailsScreen> {
                 itemBuilder: (BuildContext context, int index) {
                   return AzkarDetailsCard(
                     name: provider.list[index]['name'],
-                    repeat: provider.list[index]['repeat']??'-',
+                    repeat: provider.list[index]['repeat'] ?? '-',
                   );
                 },
               );

@@ -2,7 +2,9 @@ import 'package:azkar/Pages/azkar_screen.dart';
 import 'package:azkar/Pages/sebha_screen.dart';
 import 'package:azkar/provider/azkarProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:launch_review/launch_review.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -43,16 +45,29 @@ class _HomeScreenState extends State<HomeScreen>
   PreferredSizeWidget appBar() {
     return AppBar(
       title: Text('أذكاري'),
+      actions: [
+        IconButton(
+          onPressed: () {
+            LaunchReview.launch(
+                androidAppId: "com.ajwa.azkar", iOSAppId: "585027354");
+          },
+          icon: Icon(
+            Icons.star_rate,
+            color: Colors.yellow[600],
+            size: 28.sp,
+          ),
+          tooltip: 'قم بتقييم التطبيق الآن',
+        )
+      ],
       bottom: TabBar(
-        labelColor: Colors.green,
+        labelColor: Theme.of(context).colorScheme.primary,
         indicatorWeight: 1.5,
+        indicatorColor: Theme.of(context).colorScheme.secondary,
         controller: tabController,
         unselectedLabelColor: Colors.black,
         onTap: (index) {
-          setState(() {
-            currentIndex = index;
-            tabController!.animateTo(index);
-          });
+          currentIndex = index;
+          tabController!.animateTo(index);
         },
         tabs: [
           Tab(
