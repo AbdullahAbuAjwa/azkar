@@ -1,8 +1,8 @@
 import 'package:azkar/Pages/azkar_screen.dart';
 import 'package:azkar/Pages/sebha_screen.dart';
+import 'package:azkar/Widget/dialog.dart';
 import 'package:azkar/provider/azkarProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:launch_review/launch_review.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -48,8 +48,7 @@ class _HomeScreenState extends State<HomeScreen>
       actions: [
         IconButton(
           onPressed: () {
-            LaunchReview.launch(
-                androidAppId: "com.ajwa.azkar", iOSAppId: "585027354");
+            CustomDialog.customDialog.rateApp(context);
           },
           icon: Icon(
             Icons.star_rate,

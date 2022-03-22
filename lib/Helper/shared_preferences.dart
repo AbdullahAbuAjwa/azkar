@@ -19,4 +19,12 @@ class SharedPreferenceHelper {
   int getCounter() {
     return sharedPreferences!.getInt('counter') ?? 0;
   }
+
+  addZekrName(zekrName) {
+    sharedPreferences!.setString('zekrName', zekrName);
+  }
+
+  String getZekrName() {
+    return sharedPreferences!.getString('zekrName') ?? '-';
+  }
 }

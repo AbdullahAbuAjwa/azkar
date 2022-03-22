@@ -1,5 +1,4 @@
 import 'package:azkar/Widget/azkar_details_card.dart';
-import 'package:azkar/Widget/dialog.dart';
 import 'package:azkar/provider/azkarProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,14 +10,13 @@ class AzkarDetailsScreen extends StatefulWidget {
 
 class _AzkarDetailsScreenState extends State<AzkarDetailsScreen> {
   late String arguments;
-  late Future future;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     arguments = ModalRoute.of(context)!.settings.arguments as String;
 
-    future = Provider.of<AzkarProvider>(context, listen: false)
+    Provider.of<AzkarProvider>(context, listen: false)
         .getAzkarDetails(arguments);
   }
 
@@ -37,64 +35,27 @@ class _AzkarDetailsScreenState extends State<AzkarDetailsScreen> {
             ),
           ),
         ),
-        body: FutureBuilder(
-          future: future,
-          builder: (BuildContext context, snapshot) {
-            if (snapshot.hasError) {
-              return Center(child: Text('لم يتم إضافة أذكار!'));
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            }
-            return Consumer<AzkarProvider>(builder: (context, provider, _) {
-              if (provider.list.length == 0) {
-                return Center(child: Text('لم يتم إضافة أذكار!'));
-              }
-              return ListView.builder(
-                itemCount: provider.list.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return AzkarDetailsCard(
-                    name: provider.list[index]['name'],
-                    repeat: provider.list[index]['repeat'] ?? '-',
-                  );
-                },
-              );
-            });
-          },
-        ),
+        body: Consumer<AzkarProvider>(builder: (context, provider, _) {
+          return provider.azkarDetails == null
+              ? const Center(child: CircularProgressIndicator())
+              : provider.azkarDetails!.isEmpty
+                  ? Center(
+                      child: Text('لم يتم إضافة أذكار بعد!'),
+                    )
+                  : ListView.builder(
+                      itemCount: provider.azkarDetails!['zakrList'].length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return AzkarDetailsCard(
+                          name: provider.azkarDetails!['zakrList'][index]
+                              ['name'],
+                          repeat: provider.azkarDetails!['zakrList'][index]
+                                  ['repeat'] ??
+                              '-',
+                        );
+                      },
+                    );
+        }),
       ),
     );
-    /*body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-          stream: Provider.of<AzkarProvider>(context, listen: false)
-              .getAzkarDetails(arguments),
-          builder: (BuildContext context,
-              AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
-            if (snapshot.hasError) {
-              return Center(child: Text('لا يوجد أذكار'));
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            }
-            var azkarData = snapshot.data!.data();
-            if (azkarData!['zakrList'] == null)
-              return Center(child: Text('لا يوجد أذكار!'));
-            return ListView.builder(
-                itemCount: azkarData['zakrList'] != null
-                    ? azkarData['zakrList'].length
-                    : 0,
-                itemBuilder: (BuildContext context, int index) {
-                  return AzkarDetailsCard(
-                    name: azkarData['zakrList'][index]['name'],
-                    repeat: azkarData['zakrList'][index]['repeat'] ?? '-',
-                  );
-                });
-          },
-        ),*/
-    // floatingActionButton: FloatingActionButton(
-    //   onPressed: () {
-    //     CustomDialog.customDialog.addZekr(context, arguments);
-    //   },
-    //   child: Icon(Icons.add),
-    // ),
   }
 }

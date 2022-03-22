@@ -1,58 +1,32 @@
+import 'package:azkar/Helper/firestore_helper.dart';
 import 'package:azkar/Pages/azkar_details_screen.dart';
 import 'package:azkar/main.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class AzkarProvider with ChangeNotifier {
-  List _list = [];
+  List azkarCollectionList = [];
+  Map<String, dynamic>? azkarDetails;
+  String? doaa;
 
-  List get list {
-    return [..._list];
+  getAzkarHome() async {
+    azkarCollectionList =
+        await FireStoreController.firestoreConrtroller.getAzkar();
+    notifyListeners();
   }
 
-  set list(List value) {
-    _list = value;
+  getAzkarDetails(name) async {
+    azkarDetails = null;
+    azkarDetails =
+        await FireStoreController.firestoreConrtroller.getAzkarDetails(name);
+    notifyListeners();
   }
 
-  Stream<QuerySnapshot>? getAzkarHome() {
-    return FirebaseFirestore.instance
-        .collection('azkar')
-        .orderBy("number", descending: false)
-        .snapshots();
-  }
-
-  /*Future<void> addZekrCollection(context, TextEditingController name) async {
-    CollectionReference azkar = FirebaseFirestore.instance.collection('azkar');
-    Navigator.pop(context);
-
-    try {
-      await azkar.doc(name.text).set({
-        'zekrName': name.text.trim(),
-      }).then((value) => name.clear());
-    } on Exception catch (e) {
-      print('kkk' + e.toString());
-    }
-  }*/
-
-  // Stream<DocumentSnapshot<Map<String, dynamic>>> getAzkarDetails(name) {
-  //   return FirebaseFirestore.instance.collection('azkar').doc(name).snapshots();
-  // }
-  Future getAzkarDetails(name) async {
-    try {
-      await FirebaseFirestore.instance
-          .collection("azkar")
-          .doc(name)
-          .get()
-          .then((docSnapshot) {
-        _list = docSnapshot.data()!['zakrList'];
-        print(_list);
-        notifyListeners();
-      });
-    } on Exception catch (e) {
-      print('eeeee:' + e.toString());
-    }
+  getDoaa() async {
+    doaa = null;
+    doaa = await FireStoreController.firestoreConrtroller.getDailyDoaa();
+    notifyListeners();
   }
 
   Future<void> getNotification(context) async {
@@ -96,6 +70,7 @@ class AzkarProvider with ChangeNotifier {
       }
     });
   }
+
 /* Future<void> addZekr(context, docName, TextEditingController zekrName,
       TextEditingController repeat) async {
     CollectionReference zekr = FirebaseFirestore.instance.collection('azkar');
@@ -122,4 +97,21 @@ class AzkarProvider with ChangeNotifier {
       print('Error: ' + e.toString());
     }
   }*/
+
+  /*Future<void> addZekrCollection(context, TextEditingController name) async {
+    CollectionReference azkar = FirebaseFirestore.instance.collection('azkar');
+    Navigator.pop(context);
+
+    try {
+      await azkar.doc(name.text).set({
+        'zekrName': name.text.trim(),
+      }).then((value) => name.clear());
+    } on Exception catch (e) {
+      print('kkk' + e.toString());
+    }
+  }*/
+
+  // Stream<DocumentSnapshot<Map<String, dynamic>>> getAzkarDetails(name) {
+  //   return FirebaseFirestore.instance.collection('azkar').doc(name).snapshots();
+  // }
 }

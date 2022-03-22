@@ -1,3 +1,4 @@
+import 'package:azkar/Widget/dialog.dart';
 import 'package:azkar/provider/sebha_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,9 +14,7 @@ class SebhaScreen extends StatefulWidget {
 class _SebhaScreenState extends State<SebhaScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Provider.of<SebhaProvider>(context, listen: false).getCounter();
   }
 
   @override
@@ -24,7 +23,6 @@ class _SebhaScreenState extends State<SebhaScreen> {
       body: Consumer<SebhaProvider>(builder: (context, provider, _) {
         return Center(
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               GestureDetector(
@@ -49,7 +47,32 @@ class _SebhaScreenState extends State<SebhaScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 60.h),
+              SizedBox(height: 40.h),
+              GestureDetector(
+                onTap: () {
+                  CustomDialog.customDialog.addZekrInMasbaha(context);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'اسم الذكر: ',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 21.sp),
+                    ),
+                    Text(
+                      provider.zekrName,
+                      style: TextStyle(
+                          color: Colors.green[700],
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.sp),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 15.h),
               TextButton(
                   onPressed: () {
                     provider.reset();
@@ -58,6 +81,7 @@ class _SebhaScreenState extends State<SebhaScreen> {
                     'تصفير',
                     style: TextStyle(
                       fontSize: 20.sp,
+                      color: Colors.green[700],
                     ),
                   ))
             ],

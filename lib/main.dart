@@ -1,7 +1,7 @@
 import 'package:azkar/Pages/splash_screen.dart';
 import 'package:azkar/provider/azkarProvider.dart';
 import 'package:azkar/provider/sebha_provider.dart';
-import 'package:azkar/shared_preferences.dart';
+import 'package:azkar/Helper/shared_preferences.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -44,7 +44,7 @@ Future<void> main() async {
   runApp(EasyLocalization(
     startLocale: Locale('ar'),
     path: 'assets/languages',
-    supportedLocales: [Locale('ar'), Locale('en')],
+    supportedLocales: [Locale('ar')],    
     fallbackLocale: Locale('ar'),
     saveLocale: true,
     child: MyApp(),
