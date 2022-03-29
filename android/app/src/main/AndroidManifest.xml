@@ -38,5 +38,12 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <service android:name="com.ajwa.azkar.backgroundService"
+         android:exported="false">
+          <intent-filter>
+          <action android:name="com.ajwa.azkar.START_BACKGROUND" />
+          </intent-filter>
+        </service>
     </application>
 </manifest>
